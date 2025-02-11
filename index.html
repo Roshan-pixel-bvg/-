@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Question 💖</title>
+    <style>
+        body {
+            background-color: #ffccdd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            width: 300px;
+        }
+        .question {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .question img {
+            width: 100px;
+            height: 100px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.3s ease;
+        }
+        .yes {
+            background-color: #ff4081;
+            color: white;
+        }
+        .no {
+            background-color: #ccc;
+            color: black;
+            position: absolute;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+        }
+        .hidden {
+            display: none;
+        }
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 50px;
+            font-weight: bold;
+            color: #ff4081;
+            text-align: center;
+        }
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+            border-radius: 50%;
+            animation: fall 3s infinite;
+        }
+        @keyframes fall {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- First Question Box -->
+    <div class="container" id="firstSlide">
+        <div class="question">
+            <img src="1st.jpg" alt="First Image">
+            <br> Kya tum mujhe like krte ho? 💕
+        </div>
+        <button class="btn yes" onclick="showSecondSlide()">Yes</button>
+        <button class="btn no" id="noBtn" onclick="showSecondSlide()">No</button>
+    </div>
+
+    <!-- Second Question Box -->
+    <div class="container hidden" id="secondSlide">
+        <div class="question">
+            <img src="2nd.jpg" alt="Second Image">
+            <br> 🥺 Phir se socho? 🥺
+        </div>
+        <button class="btn yes" onclick="showThirdSlide()">okay</button>
+        <button class="btn no" id="movingNo">No</button>
+    </div>
+
+    <!-- Third Slide: Final Confirmation -->
+    <div class="container hidden" id="thirdSlide">
+        <div class="question">
+            🥺 krte ho na? 🥺
+        </div>
+        <button class="btn yes" onclick="celebrate()">Yes</button>
+        <button class="btn no" id="lastMovingNo">No</button>
+    </div>
+
+    <!-- Celebration Screen -->
+    <div class="hidden celebration" id="celebrationScreen">
+        🥳 ♡Yay!♡🥳 
+    </div>
+
+    <script>
+        function celebrate() {
+            document.getElementById("thirdSlide").classList.add("hidden");
+            document.getElementById("celebrationScreen").classList.remove("hidden");
+            createConfetti();
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                let confetti = document.createElement("div");
+                confetti.classList.add("confetti");
+                confetti.style.left = Math.random() * 100 + "vw";
+                confetti.style.top = Math.random() * 100 + "vh";
+                confetti.style.backgroundColor = getRandomColor();
+                confetti.style.animationDuration = Math.random() * 3 + 2 + "s";
+                document.body.appendChild(confetti);
+                setTimeout(() => { confetti.remove(); }, 3000);
+            }
+        }
+
+        function getRandomColor() {
+            let colors = ["#ff4081", "#ffeb3b", "#4caf50", "#ff5722", "#03a9f4"];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        function showSecondSlide() {
+            document.getElementById("firstSlide").classList.add("hidden");
+            document.getElementById("secondSlide").classList.remove("hidden");
+            moveNoButton("movingNo");
+        }
+
+        function showThirdSlide() {
+            document.getElementById("secondSlide").classList.add("hidden");
+            document.getElementById("thirdSlide").classList.remove("hidden");
+            moveNoButton("lastMovingNo");
+        }
+
+        function moveNoButton(buttonId) {
+            let noBtn = document.getElementById(buttonId);
+            noBtn.style.position = "absolute";
+            setInterval(() => {
+                let x = Math.random() * (window.innerWidth - 100);
+                let y = Math.random() * (window.innerHeight - 100);
+                noBtn.style.left = x + "px";
+                noBtn.style.top = y + "px";
+            }, 300); // Moves every 300ms
+        }
+    </script>
+
+</body>
+</html>
